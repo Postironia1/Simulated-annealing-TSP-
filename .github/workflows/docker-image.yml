@@ -1,0 +1,22 @@
+name: Docker Local
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_and_run_container:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:latest
+
+    - name: Run Docker container
+      run: docker run -d --name my-container -p 8080:80 my-image-name:latest
